@@ -1,34 +1,40 @@
 import axios from 'axios';
 import {useState} from 'react';
-import weatherCard from "./../weathercard";
-
-function Home() {
-    const [cityName,setCityName] = useState("");
-    const [data, setData] = useState([]);
+import WeatherCard from "../weatherCard";
+import './index.css';
 
 
-    let submitHandler = async (e)=>{
-    e.preventDefault();
-    console.log("I am submit Handler function");
-    try{
-    let response = await axios.get(`api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=0336380060bfd5eb16732502b38f1fcb=metric`)
-    console.log("response: ", response);
+let Home = () => {
 
-    
-    setData(response.data.list)
+  const [cityName, setCityName] = useState("");
+  const [data, setData] = useState([]);
 
-   } catch(error){
-    console.log("error in api call:", error);
-   }
-   
-    
 
-    }
+  let submitHandler = async (e) => {
+      e.preventDefault();
+
+      console.log("I am submit handler function");
+
+      try {
+          let response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=0336380060bfd5eb16732502b38f1fcb&units=metric`)
+
+          console.log("response: ", response);
+
+          setData(response.data.list)
+
+
+      } catch (error) {
+          console.log("error in api call: ", error);
+      }
+
+  }
+
   return (
     <div>
-      <h1>Weather App Home</h1>
+      <h1 id='Header'>Weather App</h1>
       <form onSubmit={submitHandler}>
-    City Name: 
+    {/* City Name:  */}
+    <label htmlFor="labelinput">City Name</label> <br />
     <input
      type="text" 
      required
@@ -37,13 +43,13 @@ function Home() {
         // console.log(e.target.value);
         setCityName(e.target.value);
      }}
-     />
+     /> <br /> <br />
     <button type='submit'>Get Weather</button>
       </form>
     {
       data.map((eachForcast, index) => (
 
-<weatherCard
+<WeatherCard
     key={index}
     date={eachForcast.dt_txt}
     temp={eachForcast.main.temp}
@@ -52,8 +58,11 @@ function Home() {
 />
 ))
 }
-    </div>
-  )
+
+
+
+</div>
+);
 }
 
 export default Home;
