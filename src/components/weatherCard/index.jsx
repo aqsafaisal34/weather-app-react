@@ -7,9 +7,9 @@ max }) => {
   return (
       <div className="card">
 
-          <div> {moment(date).format("dddd ha")} </div>
+          <h1> {moment(date).format("dddd ha")} </h1>
           <h1> {temp}°C </h1>
-          <div> {min}°C - {max}°C </div>
+          <h3> Min {min}°C - Max {max}°C </h3>
       </div>
   );
 }
